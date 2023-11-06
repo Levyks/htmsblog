@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="en" class="h-100">
+<head>
+    <meta charset="utf-8"/>
+    <title>Layout page</title>
+    <meta name="viewport" content="width=device-width"/>
+    <meta name="htmx-config" content='{"globalViewTransitions":"true"}'>
+    <script th:if="${@isDebug}" src="http://localhost:35729/livereload.js"></script>
+    <link rel="stylesheet" href="/build/css/app.css" th:href="@{/build/css/app.css}"/>
+    <script defer src="/libs/js/htmx.min.js" th:src="@{/libs/js/htmx.min.js}"></script>
+    <script defer src="/libs/js/_hyperscript.min.js" th:src="@{/libs/js/_hyperscript.min.js}"></script>
+</head>
+<body layout:fragment="body">
+</body>
+</html>

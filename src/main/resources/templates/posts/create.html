@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/base.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body layout:fragment="body">
+<h1 class="text-green-500 text-4xl">Create</h1>
+<span th:if="${@isDebug}">Debug</span>
+<span th:unless="${@isDebug}">Not debug</span>
+</body>
+</html>

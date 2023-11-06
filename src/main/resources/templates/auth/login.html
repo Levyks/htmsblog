@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/base.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body layout:fragment="body">
+<form th:action="@{/login}" method="post">
+    <input type="email" name="email" id="email" placeholder="e-mail">
+    <input type="password" name="password" id="password" placeholder="password">
+    <button type="submit">Login</button>
+</form>
+</body>
+</html>
