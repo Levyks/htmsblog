@@ -21,7 +21,7 @@ public class WebSecurityConfig {
                         .loginPage("/login")
                         .usernameParameter("email")
                         .permitAll()
-                );
+                ).rememberMe(rememberMe -> rememberMe.key("htmsblog"));
         return http.build();
     }
 

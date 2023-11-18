@@ -1,15 +1,59 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/base.html}">
+      layout:decorate="~{layouts/main.html}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body layout:fragment="body">
-<form th:action="@{/login}" method="post">
-    <input type="email" name="email" id="email" placeholder="e-mail">
-    <input type="password" name="password" id="password" placeholder="password">
-    <button type="submit">Login</button>
-</form>
-</body>
+<main class="container flex-grow-1 d-flex justify-content-center align-items-center p-3" layout:fragment="content">
+    <form
+            id="login-form"
+
+            style="width: 100%; max-width: 32rem"
+            class="card mx-auto"
+
+            th:action="@{/login}"
+            method="post"
+
+            hx-boost="true"
+            hx-indicator="#login-form .chx-indicator"
+            hx-disabled-elt="#login-form button, #login-form input"
+    >
+        <h5 class="card-header" th:text="#{auth.login.title}">Login</h5>
+        <div class="card-body">
+            <div th:replace="~{fragments/form :: textField(
+                icon='mail',
+                label=#{fields.email},
+                type='email',
+                name='email',
+                class='mb-3',
+                required=true
+            )}"></div>
+            <div th:replace="~{fragments/form :: textField(
+                icon='lock',
+                label=#{fields.password},
+                type='password',
+                name='password',
+                class='mb-3',
+                required=true
+            )}"></div>
+            <label class="d-block mb-3 form-check">
+                <input type="checkbox" class="form-check-input" name="remember-me">
+                <span class="form-check-label" th:text="#{auth.login.remember}">Remember me</span>
+            </label>
+            <div class="d-flex">
+                <div class="flex-grow-1">
+                    <p th:if="${errorMessage}" class="text-danger" th:text="${errorMessage}">Error message</p>
+                    <p th:if="${param.logout}" class="text-info-emphasis" th:text="#{auth.logout.success}">Logout
+                        message</p>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="spinner-border spinner-border-sm chx-indicator" role="status"
+                          aria-hidden="true"></span>
+                    <span th:text="#{auth.login.action}">Submit</span>
+                </button>
+            </div>
+        </div>
+    </form>
+</main>
 </html>

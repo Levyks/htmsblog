@@ -1,29 +1,28 @@
 package com.levyks.ifce.tjw.htmsblog.auth.controllers;
 
+import com.levyks.ifce.tjw.htmsblog.auth.services.LoginService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.WebAttributes;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.security.Principal;
-
 @Controller
 @RequestMapping("/login")
+@RequiredArgsConstructor
 public class LoginController {
 
+    private final LoginService loginService;
+
     @GetMapping
-    public String login(Principal principal, HttpServletRequest request) {
-        var session = request.getSession();
+    public String login(HttpServletRequest request, Model model) {
+        var errorMessage = loginService.getErrorMessage(request, LocaleContextHolder.getLocale());
+        model.addAttribute("errorMessage", errorMessage);
 
-        String errorMessage = null;
-        if (session != null && session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION) instanceof AuthenticationException ex) {
-            errorMessage = ex.getMessage();
-        }
-
-        System.out.println("Login error message: " + errorMessage);
         return "auth/login";
     }
+
 
 }

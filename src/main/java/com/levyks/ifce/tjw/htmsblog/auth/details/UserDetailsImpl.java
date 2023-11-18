@@ -12,6 +12,7 @@ import java.util.Collections;
 public class UserDetailsImpl implements UserDetails {
 
     private final Long id;
+    private final String name;
     private final String username;
     private final String password;
     private final Collection<SimpleGrantedAuthority> authorities;
@@ -19,6 +20,7 @@ public class UserDetailsImpl implements UserDetails {
 
     public UserDetailsImpl(UserEntity user) {
         this.id = user.getId();
+        this.name = user.getName();
         this.username = user.getEmail();
         this.password = user.getPassword();
         this.enabled = user.isEnabled();
