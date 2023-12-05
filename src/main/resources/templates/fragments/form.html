@@ -5,27 +5,12 @@
     <title>Form Fragments</title>
 </head>
 <body>
-<div
-        th:fragment="inputGroup"
-        th:with="name=${name}, type=(${type} ?: 'text'), icon=${icon}, placeholder=${placeholder}, class=${class}, id=${id}, required=${required}"
-        class="input-group"
-        th:classappend="${class}"
->
-    <span th:if="${icon}" th:text="${icon}" class="input-group-text material-symbols-outlined px-2"></span>
-    <input
-            th:id="${id}"
-            th:type="${type}"
-            th:placeholder="${placeholder}"
-            th:name="${name}"
-            th:required="${required}"
-            class="form-control"
-    >
-    <button
-            th:if="${type} == 'password'"
-            class="btn btn-outline-secondary py-1 d-flex align-items-center"
-            type="button"
-            style="display:none;"
-            _="
+<button
+        th:fragment="passwordVisibilityButton"
+        class="btn btn-outline-secondary py-1 d-flex align-items-center"
+        type="button"
+        style="display:none;"
+        _="
                 init
                     show
                     set :input to the previous <input/>
@@ -40,19 +25,8 @@
                         set :span's innerHTML to 'visibility'
                 end
                 "
-    >
-        <span class="material-symbols-outlined">visibility</span>
-    </button>
-</div>
-<label
-        th:fragment="textField(label)"
-        th:with="name=${name}, type=(${type} ?: 'text'), icon=${icon}, placeholder=${placeholder}, class=${class}, id=${id}, required=${required}"
-        class="d-block"
-        th:classappend="${class}"
 >
-    <span class="d-block form-label" th:text="${label}"></span>
-    <div th:replace="~{this :: inputGroup}"
-         th:with="id=${id}, type=${type}, icon=${icon}, placeholder=${placeholder}, class=${class}, name=${name}, required=${required}"></div>
-</label>
+    <span class="material-symbols-outlined">visibility</span>
+</button>
 </body>
 </html>

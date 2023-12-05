@@ -5,9 +5,39 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<main layout:fragment="content">
-    <h1 class="text-green-500 text-4xl">Create</h1>
-    <span th:if="${@isDebug}">Debug</span>
-    <span th:unless="${@isDebug}">Not debug</span>
-</main>
+<form class="container flex-grow-1 d-flex flex-column p-3 gap-3"
+      layout:fragment="content"
+      method="post"
+      enctype="multipart/form-data"
+      th:action="@{/posts}"
+      th:object="${form}"
+>
+    <h1 class="w-100" th:text="#{posts.new.title}">New Post</h1>
+    <div class="row">
+        <label class="col-12 col-md-6">
+            <span class="d-block form-label" th:text="#{fields.title}"></span>
+            <input th:field="*{title}" class="form-control" required>
+        </label>
+        <label class="col-12 col-md-3">
+            <span class="d-block form-label" th:text="#{fields.categories}"></span>
+            <input th:field="*{categories}" class="form-control">
+            <div class="form-text" th:text="#{misc.commaSeparated}"></div>
+        </label>
+        <label class="col-12 col-md-3">
+            <span class="d-block form-label" th:text="#{fields.image}"></span>
+            <input th:field="*{image}" type="file" accept="image/*" class="form-control">
+        </label>
+    </div>
+    <label class="flex-grow-1 d-flex flex-column">
+        <span class="d-block form-label" th:text="#{fields.content}"></span>
+        <textarea class="flex-grow-1 form-control" th:field="*{content}" required></textarea>
+    </label>
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">
+            <span class="spinner-border spinner-border-sm chx-indicator" role="status"
+                  aria-hidden="true"></span>
+            <span th:text="#{posts.new.action}">Create</span>
+        </button>
+    </div>
+</form>
 </html>

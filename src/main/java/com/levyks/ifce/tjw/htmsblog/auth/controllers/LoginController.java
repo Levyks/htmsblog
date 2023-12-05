@@ -20,9 +20,6 @@ public class LoginController {
     public String login(HttpServletRequest request, Model model) {
         var errorMessage = loginService.getErrorMessage(request, LocaleContextHolder.getLocale());
         model.addAttribute("errorMessage", errorMessage);
-
         return "auth/login";
     }
-
-
 }

@@ -13,6 +13,7 @@
             class="card mx-auto"
 
             th:action="@{/login}"
+            th:object="${form}"
             method="post"
 
             hx-boost="true"
@@ -21,24 +22,23 @@
     >
         <h5 class="card-header" th:text="#{auth.login.title}">Login</h5>
         <div class="card-body">
-            <div th:replace="~{fragments/form :: textField(
-                icon='mail',
-                label=#{fields.email},
-                type='email',
-                name='email',
-                class='mb-3',
-                required=true
-            )}"></div>
-            <div th:replace="~{fragments/form :: textField(
-                icon='lock',
-                label=#{fields.password},
-                type='password',
-                name='password',
-                class='mb-3',
-                required=true
-            )}"></div>
+            <label class="d-block mb-3">
+                <span class="d-block form-label" th:text="#{fields.email}"></span>
+                <div class="input-group">
+                    <span class="input-group-text material-symbols-outlined px-2">mail</span>
+                    <input name="email" type="email" class="form-control" required>
+                </div>
+            </label>
+            <label class="d-block mb-3">
+                <span class="d-block form-label" th:text="#{fields.password}"></span>
+                <div class="input-group">
+                    <span class="input-group-text material-symbols-outlined px-2">lock</span>
+                    <input name="password" type="password" class="form-control" required>
+                    <div th:replace="~{fragments/form :: passwordVisibilityButton}"></div>
+                </div>
+            </label>
             <label class="d-block mb-3 form-check">
-                <input type="checkbox" class="form-check-input" name="remember-me">
+                <input name="remember-me" type="checkbox" class="form-check-input">
                 <span class="form-check-label" th:text="#{auth.login.remember}">Remember me</span>
             </label>
             <div class="d-flex">

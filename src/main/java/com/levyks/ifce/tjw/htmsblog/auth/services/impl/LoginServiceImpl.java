@@ -1,9 +1,9 @@
 package com.levyks.ifce.tjw.htmsblog.auth.services.impl;
 
 import com.levyks.ifce.tjw.htmsblog.auth.services.LoginService;
+import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.WebAttributes;
@@ -23,7 +23,6 @@ public class LoginServiceImpl implements LoginService {
         if (request.getParameter("error") == null) return null;
 
         var session = request.getSession();
-
         if (session != null && session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION) instanceof AuthenticationException ex) {
             return ex.getMessage();
         }

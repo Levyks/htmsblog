@@ -2,6 +2,7 @@ package com.levyks.ifce.tjw.htmsblog.common.entities;
 
 import com.levyks.ifce.tjw.htmsblog.auth.details.UserDetailsImpl;
 import com.levyks.ifce.tjw.htmsblog.users.entities.UserEntity;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.ZonedDateTime;
@@ -53,7 +53,9 @@ public abstract class BaseEntity {
 
     @PrePersist
     public void prePersist() {
-        this.createdById = getCurrentUserId();
+        var userId = getCurrentUserId();
+        this.createdById = userId;
+        this.updatedById = userId;
     }
 
     private @Nullable Long getCurrentUserId() {

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<main layout:fragment="content" class="container pt-3">
+    <h1 class="w-100" th:text="${post.title}">Post title</h1>
+    <div class="d-flex w-100 gap-2 text-secondary">
+        <span th:text="${post.createdBy.name}">Post author</span>
+        <span>
+            <div th:replace="~{fragments/format :: formatDate(${post.createdAt})}"></div>
+        </span>
+    </div>
+    <div class="text-secondary">
+        <span th:text="#{fields.categories}">Categories</span>:
+        <span th:text="${post.categoriesString}" class="ml-2">Post categories</span>
+    </div>
+    <hr class="text-secondary"/>
+    <div th:utext="${post.content}">Post content</div>
+</main>
+</html>
