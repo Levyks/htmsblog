@@ -8,13 +8,13 @@
 <form class="container flex-grow-1 d-flex flex-column p-3 gap-3"
       layout:fragment="content"
 
-      th:action="@{/posts}"
+      th:action="${''}"
       th:object="${form}"
       method="post"
 
       hx-boost="true"
       hx-indicator="find .chx-indicator"
-      hx-disabled-elt="button, input"
+      hx-disabled-elt="button, input, textarea"
 >
     <h1 class="w-100" th:text="#{posts.new.title}">New Post</h1>
     <div class="row">
@@ -36,7 +36,7 @@
         <button type="submit" class="btn btn-primary">
             <span class="spinner-border spinner-border-sm chx-indicator" role="status"
                   aria-hidden="true"></span>
-            <span th:text="#{posts.new.action}">Create</span>
+            <span th:text="${action == T(com.levyks.ifce.tjw.htmsblog.common.enums.FormAction).EDIT} ? #{misc.edit} : #{misc.create}">Create</span>
         </button>
     </div>
 </form>

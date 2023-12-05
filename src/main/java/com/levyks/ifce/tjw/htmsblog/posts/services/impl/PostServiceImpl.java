@@ -1,5 +1,6 @@
 package com.levyks.ifce.tjw.htmsblog.posts.services.impl;
 
+import com.levyks.ifce.tjw.htmsblog.auth.details.UserDetailsImpl;
 import com.levyks.ifce.tjw.htmsblog.common.dtos.PageRequestDTO;
 import com.levyks.ifce.tjw.htmsblog.common.utils.SlugUtils;
 import com.levyks.ifce.tjw.htmsblog.posts.dtos.CreatePostDTO;
@@ -10,9 +11,11 @@ import com.levyks.ifce.tjw.htmsblog.posts.services.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +34,12 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public void create(CreatePostDTO form) {
+        update(new PostEntity(), form);
+    }
+
+    @Override
+    @Transactional
+    public void update(PostEntity post, CreatePostDTO form) {
         var categories = categoryService.splitAndRetrieve(form.getCategories());
         var slug = SlugUtils.generateUniqueSlug(
                 postRepository::findAllBySlugStartsWith,
@@ -39,7 +48,6 @@ public class PostServiceImpl implements PostService {
                 List.of("create")
         );
 
-        var post = new PostEntity();
         post.setTitle(form.getTitle());
         post.setCategories(categories);
         post.setContent(form.getContent());
@@ -49,12 +57,29 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public void delete(PostEntity post) {
+        postRepository.delete(post);
+    }
+
+    @Override
     public Optional<PostEntity> findByIdOrSlug(String idOrSlug) {
         if (idOrSlug.matches("\\d+")) {
             var post = postRepository.findById(Long.parseLong(idOrSlug));
             if (post.isPresent()) return post;
         }
         return postRepository.findBySlug(idOrSlug);
+    }
+
+    @Override
+    public Optional<PostEntity> findById(Long id) {
+        return postRepository.findById(id);
+    }
+
+    @Override
+    public boolean canEdit(PostEntity post, Principal principal) {
+        var details = (UserDetailsImpl) ((Authentication) principal).getPrincipal();
+        return details.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")) ||
+                post.getCreatedBy().getId().equals(details.getId());
     }
 
     private Specification<PostEntity> getSpecification(PageRequestDTO specification) {
