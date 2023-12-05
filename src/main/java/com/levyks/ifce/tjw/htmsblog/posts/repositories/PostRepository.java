@@ -40,5 +40,9 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
         public static Specification<PostEntity> withCategoryNameLike(String categoryName) {
             return (root, query, builder) -> builder.like(root.join("categories", JoinType.LEFT).get("name"), "%" + categoryName + "%");
         }
+
+        public static Specification<PostEntity> withCategoryName(String categoryName) {
+            return (root, query, builder) -> builder.equal(root.join("categories", JoinType.LEFT).get("name"), categoryName);
+        }
     }
 }

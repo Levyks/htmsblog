@@ -1,16 +1,16 @@
 package com.levyks.ifce.tjw.htmsblog.posts.controllers;
 
 import com.levyks.ifce.tjw.htmsblog.common.dtos.PageRequestDTO;
+import com.levyks.ifce.tjw.htmsblog.common.utils.HtmxUtils;
 import com.levyks.ifce.tjw.htmsblog.posts.dtos.CreatePostDTO;
+import com.levyks.ifce.tjw.htmsblog.posts.services.CategoryService;
 import com.levyks.ifce.tjw.htmsblog.posts.services.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/posts")
@@ -18,11 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PostController {
 
     private final PostService postService;
+    private final CategoryService categoryService;
 
     @GetMapping
-    public String index(Model model, PageRequestDTO request) {
-        var page = postService.getPage(request);
-        model.addAttribute("posts", page);
+    public String index(Model model, PageRequestDTO pageRequest, @RequestHeader HttpHeaders headers) {
+        var posts = HtmxUtils.getIfTargeted(headers, "posts-wrapper", () -> postService.getPage(pageRequest));
+        var categories = HtmxUtils.getIfTargeted(headers, "categories-wrapper", () -> categoryService.getMostPopular(20));
+        model.addAttribute("posts", posts);
+        model.addAttribute("categories", categories);
         return "posts/index";
     }
 

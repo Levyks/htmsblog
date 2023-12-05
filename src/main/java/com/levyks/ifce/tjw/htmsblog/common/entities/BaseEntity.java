@@ -7,10 +7,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.ZonedDateTime;
@@ -25,11 +23,9 @@ public abstract class BaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    @CreationTimestamp
     private ZonedDateTime createdAt;
 
     @Column(nullable = false)
-    @UpdateTimestamp
     private ZonedDateTime updatedAt;
 
     private Long createdById;
@@ -48,14 +44,19 @@ public abstract class BaseEntity {
 
     @PreUpdate
     public void preUpdate() {
+
         this.updatedById = getCurrentUserId();
+        this.updatedAt = ZonedDateTime.now();
     }
 
     @PrePersist
     public void prePersist() {
         var userId = getCurrentUserId();
+        var now = ZonedDateTime.now();
         this.createdById = userId;
         this.updatedById = userId;
+        this.createdAt = now;
+        this.updatedAt = now;
     }
 
     private @Nullable Long getCurrentUserId() {

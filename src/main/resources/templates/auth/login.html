@@ -7,8 +7,6 @@
 </head>
 <main class="container flex-grow-1 d-flex justify-content-center align-items-center p-3" layout:fragment="content">
     <form
-            id="login-form"
-
             style="width: 100%; max-width: 32rem"
             class="card mx-auto"
 
@@ -17,8 +15,8 @@
             method="post"
 
             hx-boost="true"
-            hx-indicator="#login-form .chx-indicator"
-            hx-disabled-elt="#login-form button, #login-form input"
+            hx-indicator="find .chx-indicator"
+            hx-disabled-elt="button, input"
     >
         <h5 class="card-header" th:text="#{auth.login.title}">Login</h5>
         <div class="card-body">

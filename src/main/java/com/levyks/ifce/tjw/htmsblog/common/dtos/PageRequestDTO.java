@@ -17,6 +17,7 @@ public class PageRequestDTO {
     private Collection<String> sort = Collections.emptyList();
     private Sort.Direction direction = Sort.Direction.ASC;
     private String search;
+    private String category;
 
     public Pageable toPageable() {
         var sort = Sort.by(this.sort.stream().map(property -> new Sort.Order(direction, property)).toList());
