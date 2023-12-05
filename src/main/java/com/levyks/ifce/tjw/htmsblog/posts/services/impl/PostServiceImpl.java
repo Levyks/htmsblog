@@ -19,7 +19,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Service("postService")
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
@@ -77,10 +77,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public boolean canEdit(PostEntity post, Principal principal) {
-        if (principal == null) return false;
-        var details = (UserDetailsImpl) ((Authentication) principal).getPrincipal();
-        return details.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")) ||
-                post.getCreatedBy().getId().equals(details.getId());
+        if (principal instanceof Authentication authentication &&
+                authentication.getPrincipal() instanceof UserDetailsImpl userDetails) {
+            return userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")) ||
+                    post.getCreatedBy().getId().equals(userDetails.getId());
+        }
+        return false;
     }
 
     private Specification<PostEntity> getSpecification(PageRequestDTO specification) {

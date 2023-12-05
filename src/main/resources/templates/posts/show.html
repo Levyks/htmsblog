@@ -20,7 +20,7 @@
                 <span th:text="${post.categoriesString}" class="ml-2">Post categories</span>
             </div>
         </div>
-        <div th:if="${#authentication.principal?.id == post.createdBy.id}">
+        <div th:if="${@postService.canEdit(post, #authentication)}">
             <a class="btn btn-primary" th:href="@{/posts/{id}/edit(id=${post.id})}" th:text="#{misc.edit}">Edit</a>
             <form th:action="@{/posts/{id}/delete(id=${post.id})}" th:attr="hx-confirm=#{misc.confirmDelete}"
                   method="post" class="d-inline">
