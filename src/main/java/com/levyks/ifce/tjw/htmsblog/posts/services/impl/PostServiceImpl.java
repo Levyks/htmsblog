@@ -77,6 +77,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public boolean canEdit(PostEntity post, Principal principal) {
+        if (principal == null) return false;
         var details = (UserDetailsImpl) ((Authentication) principal).getPrincipal();
         return details.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")) ||
                 post.getCreatedBy().getId().equals(details.getId());
