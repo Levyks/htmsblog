@@ -3,7 +3,9 @@
       layout:decorate="~{layouts/main.html}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+
+    <title th:text="(${action == T(com.levyks.ifce.tjw.htmsblog.common.enums.FormAction).EDIT} ? #{posts.edit.title} : #{posts.new.title}) + ' - HTMS Blog'">
+        Post Form</title>
 </head>
 <form class="container flex-grow-1 d-flex flex-column p-3 gap-3"
       layout:fragment="content"
@@ -16,7 +18,10 @@
       hx-indicator="find .chx-indicator"
       hx-disabled-elt="button, input, textarea"
 >
-    <h1 class="w-100" th:text="#{posts.new.title}">New Post</h1>
+
+    <h1 class="w-100"
+        th:text="${action == T(com.levyks.ifce.tjw.htmsblog.common.enums.FormAction).EDIT} ? #{posts.edit.title} : #{posts.new.title}">
+        New Post</h1>
     <div class="row">
         <label class="col-12 col-md-8">
             <span class="d-block form-label" th:text="#{fields.title}"></span>
