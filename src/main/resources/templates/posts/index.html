@@ -12,7 +12,7 @@
         <div class="col-12 col-md-9">
             <h1 th:text="#{posts.list.title}" class="mb-3">Posts</h1>
             <div id="posts-wrapper">
-                <div class="list-group">
+                <div class="list-group mb-3">
                     <a th:if="${posts}" th:each="post : ${posts}" th:href="@{/posts/{slug}(slug=${post.slug})}"
                        class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
@@ -25,6 +25,7 @@
                         <small th:text="${post.createdBy.name}">Post author</small>
                     </a>
                 </div>
+                <div th:replace="~{fragments/pagination :: pagination(${posts})}"></div>
             </div>
         </div>
         <div class="col-12 col-md-3 text-center">
@@ -49,28 +50,48 @@
                     <span class="input-group-text material-symbols-outlined px-2">search</span>
                 </div>
             </form>
-            <div id="categories-wrapper">
-                <h5 class="text-center mb-3" th:text="#{fields.categories}">Categories</h5>
-                <div class="list-group mb-2">
+            <div id="categories-wrapper" class="mb-3">
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="filters-categories-heading">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#filters-categories" aria-expanded="false"
+                                    aria-controls="filters-categories" th:text="#{fields.categories}"
+                                    _="init if window's innerWidth < 768 add .collapsed to me end"
+                            >
+                                Categories
+                            </button>
+                        </h2>
+                        <div id="filters-categories"
+                             class="accordion-collapse collapse"
+                             aria-labelledby="filters-categories-heading"
+                             _="init if window's innerWidth >= 768 add .show to me end"
+                        >
+                            <div class="accordion-body">
+                                <div class="list-group mb-2">
 
-                    <a th:if="${categories}" th:each="category : ${categories}"
-                       th:href="${@templateService.currentUrlWithParameter('category', category.name)}"
-                       class="list-group-item list-group-item-action"
-                       th:classappend="${param.category?.first == category.name ? 'active' : ''}"
-                    >
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1" th:text="${category.name}">Category name</h6>
-                            <small th:text="${category.postCount}">Posts count</small>
+                                    <a th:if="${categories}" th:each="category : ${categories}"
+                                       th:href="${@templateService.currentUrlWithParameter('category', category.name, 'page', 1)}"
+                                       class="list-group-item list-group-item-action"
+                                       th:classappend="${param.category?.first == category.name ? 'active' : ''}"
+                                    >
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1" th:text="${category.name}">Category name</h6>
+                                            <small th:text="${category.postCount}">Posts count</small>
+                                        </div>
+                                    </a>
+                                </div>
+                                <a th:if="${param.category != null}"
+                                   th:href="${@templateService.currentUrlWithoutParameter('category')}"
+                                   class="text-center"
+                                   th:text="#{misc.clearFilter}"
+                                >
+                                    Clear filter
+                                </a>
+                            </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
-                <a th:if="${param.category != null}"
-                   th:href="${@templateService.currentUrlWithoutParameter('category')}"
-                   class="text-center"
-                   th:text="#{misc.clearFilter}"
-                >
-                    Clear filter
-                </a>
             </div>
         </div>
     </div>

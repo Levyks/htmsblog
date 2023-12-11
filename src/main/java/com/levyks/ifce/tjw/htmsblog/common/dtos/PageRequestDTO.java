@@ -13,7 +13,7 @@ import java.util.Collections;
 @Setter
 public class PageRequestDTO {
     private int page = 1;
-    private int size = 20;
+    private int size = 10;
     private Collection<String> sort = Collections.emptyList();
     private Sort.Direction direction = Sort.Direction.ASC;
     private String search;
