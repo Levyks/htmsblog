@@ -65,9 +65,9 @@ create table categories_posts
     post_id     bigint not null,
     primary key (category_id, post_id),
     constraint FK74riv8mw4e9shd1b1gpce0j43
-        foreign key (post_id) references posts (id),
+        foreign key (post_id) references posts (id) on delete cascade,
     constraint FK9juf11r7w0xqrwrfig4q1gqi5
-        foreign key (category_id) references categories (id)
+        foreign key (category_id) references categories (id) on delete cascade
 );
 
 create table comments
