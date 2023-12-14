@@ -10,6 +10,7 @@ import com.levyks.ifce.tjw.htmsblog.posts.services.CategoryService;
 import com.levyks.ifce.tjw.htmsblog.posts.services.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Page<PostEntity> getPage(PageRequestDTO request) {
+        if (request.getSort() == null || request.getSort().isEmpty()) {
+            request.setSort(List.of("createdAt"));
+            request.setDirection(Sort.Direction.DESC);
+        }
+
         return postRepository.findAll(getSpecification(request), request.toPageable());
     }
 
