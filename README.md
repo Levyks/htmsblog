@@ -12,7 +12,7 @@ the Web) class in the Computer Science course of IFCE.
 
   | Variable      | Description       | Default                                   |
   |---------------|-------------------|-------------------------------------------|
-  | `DB_URL`      | Database URL      | `jdbc:mariadb://localhost:3306/htms_blog` |
+  | `DB_URL`      | Database URL      | `jdbc:mysql://localhost:3306/htms_blog` |
   | `DB_USERNAME` | Database username | `root`                                    |
   | `DB_PASSWORD` | Database password | `password`                                |
 
